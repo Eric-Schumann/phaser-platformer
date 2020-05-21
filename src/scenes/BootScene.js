@@ -16,7 +16,7 @@ class BootScene extends Phaser.Scene {
         this.load.image('playerWalk2', 'src/assets/images/player/platformChar_walk2.png');
         this.load.image('playerIdle', 'src/assets/images/player/platformChar_idle.png');
         this.load.image('playerJump', 'src/assets/images/player/platformChar_jump.png');
-        this.load.image('tiles', 'src/assets/images/maps/platformPack_tilesheet.png');
+        this.load.image('tiles', 'src/assets/images/maps/tiles_extruded.png');
     }
 
     loadTileMaps() {
