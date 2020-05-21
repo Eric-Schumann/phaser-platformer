@@ -28,7 +28,7 @@ class GameScene extends Phaser.Scene {
 
     createMap() {
         this.map = this.add.tilemap('levelOne');
-        this.tileset = this.map.addTilesetImage('PlatformTiles', 'tiles');
+        this.tileset = this.map.addTilesetImage('PlatformTiles', 'tiles', 64, 64, 1, 2);
         this.solids = this.map.createStaticLayer('Solids', this.tileset, 0, 0);
         this.death = this.map.createStaticLayer('Death', this.tileset, 0, 0);
         this.solids
