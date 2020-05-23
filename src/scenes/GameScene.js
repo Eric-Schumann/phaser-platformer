@@ -12,11 +12,11 @@ class GameScene extends Phaser.Scene {
         this.createMap();
         this.player = this.createPlayer();
         this.physics.add.collider(this.solids, this.player);
-            this.physics.add.collider(this.solids, this.player);
-    this.sound.add("music").play({
-      loop: true,
-      volume: 0.25
-    });
+        this.physics.add.collider(this.solids, this.player);
+        this.sound.add("music").play({
+            loop: true,
+            volume: 0.25
+        });
     }
 
     update(dt) {
