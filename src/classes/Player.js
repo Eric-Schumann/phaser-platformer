@@ -16,6 +16,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.addAnimations();
         this.scene.cameras.main.setBounds(0, 0, 6400, 640);
         this.scene.cameras.main.startFollow(this, true, 0.05, 0);
+        this.jump = this.scene.sound.add("jump");
 
         this.scene.registry.set('debugData', {
             x: this.x,
@@ -45,6 +46,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         if(this.cursors.space.isDown && onFloor) {
             this.setVelocityY(this.JUMP_HEIGHT);
+            this.jump.play();
         }
 
         this.scene.registry.set('debugData', {
