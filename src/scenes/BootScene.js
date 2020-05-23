@@ -6,6 +6,7 @@ class BootScene extends Phaser.Scene {
     preload() {
         this.loadImages();
         this.loadTileMaps();
+        this.loadSounds();
         this.load.on('complete', () => {
             this.scene.start('game');
         });
@@ -21,5 +22,12 @@ class BootScene extends Phaser.Scene {
 
     loadTileMaps() {
         this.load.tilemapTiledJSON('levelOne', 'src/assets/images/maps/LevelOne.json');
+    }
+    
+    loadSounds() {
+        this.load.audio("jump", ["src/assets/audio/phaseJump3.ogg"]);
+        this.load.audio("music", [
+            "https://labs.phaser.io/assets/audio/CatAstroPhi_shmup_normal.mp3"
+        ]);
     }
 }
