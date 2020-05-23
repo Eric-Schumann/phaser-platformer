@@ -27,7 +27,7 @@ class BootScene extends Phaser.Scene {
     loadSounds() {
         this.load.audio("jump", ["src/assets/audio/phaseJump3.ogg"]);
         this.load.audio("music", [
-            "https://labs.phaser.io/assets/audio/CatAstroPhi_shmup_normal.mp3"
+            '../assets/audio/Theme Song 8-bit V1 _looping.wav'
         ]);
     }
 }
