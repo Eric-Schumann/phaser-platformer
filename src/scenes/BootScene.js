@@ -25,9 +25,9 @@ class BootScene extends Phaser.Scene {
     }
     
     loadSounds() {
-        this.load.audio("jump", ["../assets/audio/phaseJump3.ogg"]);
+        this.load.audio("jump", ["src/assets/audio/phaseJump3.ogg"]);
         this.load.audio("music", [
-            '../assets/audio/worldmusic.wav'
+            'src/assets/audio/worldmusic.wav'
         ]);
     }
 }
