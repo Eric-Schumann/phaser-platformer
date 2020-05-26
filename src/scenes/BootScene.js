@@ -7,9 +7,7 @@ class BootScene extends Phaser.Scene {
         this.loadImages();
         this.loadTileMaps();
         this.loadSounds();
-        this.load.on('complete', () => {
-            this.scene.start('game');
-        });
+        this.handleLoadEvents();
     }
 
     loadImages() {
@@ -29,5 +27,19 @@ class BootScene extends Phaser.Scene {
         this.load.audio("music", [
             'src/assets/audio/worldmusic.wav'
         ]);
+    }
+
+    handleLoadEvents(){
+        this.loadingText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Loading: 0%', {
+            fontSize: '64px'
+        }).setOrigin(0.5);
+        
+        this.load.on('progress', (progress) => {
+            this.loadingText.setText(`Loading: ${Math.floor(progress * 100)}%`);
+        });
+
+        this.load.on('complete', () => {
+            this.scene.start('game');
+        });
     }
 }

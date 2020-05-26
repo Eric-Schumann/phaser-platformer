@@ -4,6 +4,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.setCollideWorldBounds(true);
+        this.scene.physics.world.setBounds(0, 0, 6400, 640, true, true, false, true);
         this.body.setSize(this.width * .5, this.height * .7);
         this.body.setOffset(25, 30);
 
@@ -18,16 +19,24 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.cameras.main.startFollow(this, true, 0.05, 0);
         this.jump = this.scene.sound.add("jump");
 
-        this.scene.registry.set('debugData', {
-            x: this.x,
-            y: this.y,
-            onFloor: true
-        });
+        
+        //Timer Data
+        this.frameCount = 60;
+        this.timer = 30;
+
+        this.scene.registry.set('timer', this.timer);
+
     }
 
     update(dt) {
+        this.handleMovement();
+        this.runTimer();
+    }
 
+    handleMovement() {
         const onFloor = this.body.onFloor();
+
+        //Control animations based on velocity on floor.
         if(this.body.velocity.x !== 0 && onFloor) {
             this.play('run', true);
         } else if(onFloor){
@@ -36,6 +45,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.play('jump', true);
         }
 
+        //Handle left and right movement.
         if(this.cursors.left.isDown) {
             this.setVelocityX(-this.VELOCITY);
             this.flipX = true;
@@ -44,20 +54,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.flipX = false ;
         }
 
+        //Handle jump.
         if(this.cursors.space.isDown && onFloor) {
             this.setVelocityY(this.JUMP_HEIGHT);
             this.jump.play();
         }
-
-        this.scene.registry.set('debugData', {
-            x: Math.floor(this.x),
-            y: Math.floor(this.y),
-            onFloor: onFloor,
-            velocity: this.body.velocity
-        });
     }
 
     addAnimations() {
+        //Run animation.
         this.scene.anims.create({
             key: 'run',
             frames: [
@@ -68,6 +73,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             repeat: -1
         });
 
+        //Idle animation.
         this.scene.anims.create({
             key: 'idle',
             frames: [{ key: 'playerIdle' }],
@@ -75,11 +81,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             repeat: 0
         });
 
+        //Jump animation.
         this.scene.anims.create({
             key: 'jump',
             frames: [{ key: 'playerJump' }],
             frameRate: 0,
             repeat: 0
         });
+    }
+
+    runTimer() {
+        //Timer based off 60 frames per second.
+        this.frameCount -= 1;
+
+        if(this.frameCount === 0) {
+            this.frameCount = 60;
+            this.timer -= 1;
+        }
+
+        //Die when out of time.
+        if(this.timer === 0) {
+            this.die();
+        }
+
+        this.scene.registry.values.timer = this.timer;
+    }
+
+    die() {
+        this.scene.sound.removeAll();
+        this.scene.scene.restart();
     }
 }

@@ -8,15 +8,10 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.physics.world.setBounds(0, 0, 6400, 640);
         this.createMap();
-        this.player = this.createPlayer();
-        this.physics.add.collider(this.solids, this.player);
-        this.physics.add.collider(this.solids, this.player);
-        this.sound.add("music").play({
-            loop: true,
-            volume: 0.25
-        });
+        this.createPlayer();
+        this.addCollisions();
+        this.addLevelMusic();
     }
 
     update(dt) {
@@ -24,10 +19,10 @@ class GameScene extends Phaser.Scene {
     }
 
     createPlayer() {
-        return new Player({
+        this.player = new Player({
             scene: this,
-            x: this.scale.width / 2,
-            y: this.scale.height / 2
+            x: 64,
+            y: this.scale.height - 100
         });
     }
 
@@ -36,7 +31,18 @@ class GameScene extends Phaser.Scene {
         this.tileset = this.map.addTilesetImage('PlatformTiles', 'tiles', 64, 64, 1, 2);
         this.solids = this.map.createStaticLayer('Solids', this.tileset, 0, 0);
         this.death = this.map.createStaticLayer('Death', this.tileset, 0, 0);
-        this.solids
         this.solids.setCollisionByProperty({collides: true});
+    }
+
+    addCollisions() {
+        this.physics.add.collider(this.solids, this.player);
+        this.physics.add.collider(this.solids, this.player);
+    }
+
+    addLevelMusic() {
+        this.sound.add("music").play({
+            loop: true,
+            volume: 0.25
+        });
     }
 }
